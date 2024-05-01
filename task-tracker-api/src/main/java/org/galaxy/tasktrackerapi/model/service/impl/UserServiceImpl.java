@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.galaxy.tasktrackerapi.model.dto.UserCreateDto;
+import org.galaxy.tasktrackerapi.model.dto.UserReadDto;
 import org.galaxy.tasktrackerapi.model.entity.User;
 import org.galaxy.tasktrackerapi.model.mapper.UserMapper;
 import org.galaxy.tasktrackerapi.model.repository.UserRepository;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -25,6 +28,11 @@ public class UserServiceImpl implements UserServise {
     @Override
     public User createUser(UserCreateDto userCreateDto) {
         return userRepository.save(userMapper.userCreateDtoToUser(userCreateDto));
+    }
+
+    @Override
+    public UserReadDto findByUsername(String username) {
+        return userMapper.userToUserReadDto(userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username)));
     }
 
     @Override

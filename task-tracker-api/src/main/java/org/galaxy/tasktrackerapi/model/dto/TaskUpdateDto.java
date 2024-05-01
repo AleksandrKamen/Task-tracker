@@ -6,7 +6,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Value;
 
 @Value
-public class TaskCreateDto {
+public class TaskUpdateDto {
+    Long id;
     @NotNull
     @Size(min=3, max=50)
     String title;
