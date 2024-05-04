@@ -5,6 +5,8 @@ CREATE TABLE app_data.users
     id BIGSERIAL PRIMARY KEY,
     username VARCHAR(128) NOT NULL UNIQUE ,
     password VARCHAR(128) NOT NULL,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
     role  VARCHAR(32) not null
 );
 

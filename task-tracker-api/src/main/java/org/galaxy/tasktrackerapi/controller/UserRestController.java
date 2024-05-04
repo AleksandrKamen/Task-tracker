@@ -1,15 +1,13 @@
 package org.galaxy.tasktrackerapi.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.galaxy.tasktrackerapi.model.dto.UserCreateDto;
 import org.galaxy.tasktrackerapi.model.service.UserServise;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.security.Principal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -19,24 +17,8 @@ public class UserRestController {
 
 
     @GetMapping
-    public ResponseEntity<?> findUser(Principal principal) {
-        if (principal != null) {
-            var user = userServise.findByUsername(principal.getName());
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<?> findUser(@AuthenticationPrincipal UserDetails userDetails) {
+        var user = userServise.findByUsername(userDetails.getUsername());
+        return ResponseEntity.ok(user);
     }
-    @PostMapping
-    public ResponseEntity<?> createUser(@Validated @RequestBody UserCreateDto userCreateDtol,
-                                        BindingResult bindingResult,
-                                        UriComponentsBuilder uriComponentsBuilder) {
-        if (bindingResult.hasErrors()) {
-            //Todo Валидация ошибок
-        }
-        // Todo регистрация пользователя
-        return null;
-    }
-
-
 }
