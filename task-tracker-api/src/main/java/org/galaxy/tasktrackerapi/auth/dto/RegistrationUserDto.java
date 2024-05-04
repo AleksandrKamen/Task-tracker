@@ -1,4 +1,4 @@
-package org.galaxy.tasktrackerapi.model.dto;
+package org.galaxy.tasktrackerapi.auth.dto;
 
 
 import jakarta.validation.constraints.Email;
@@ -9,7 +9,7 @@ import org.galaxy.tasktrackerapi.validation.FieldEquals;
 
 @Value
 @FieldEquals(field="rawPassword", equalsTo="confirmPassword")
-public class UserCreateDto {
+public class RegistrationUserDto {
     @Email
     String username;
     @NotBlank
