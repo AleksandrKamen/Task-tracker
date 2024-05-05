@@ -1,15 +1,16 @@
 package org.galaxy.tasktrackerapi.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.galaxy.tasktrackerapi.model.dto.TaskReadDto;
 import org.galaxy.tasktrackerapi.model.dto.TaskUpdateDto;
-import org.galaxy.tasktrackerapi.model.entity.Task;
+import org.galaxy.tasktrackerapi.model.entity.User;
 import org.galaxy.tasktrackerapi.model.service.TaskService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,26 +19,32 @@ public class TaskController {
     private final TaskService taskService;
 
    @GetMapping
-   public Task getTask(@PathVariable("taskId") Long taskId) {
-        return taskService.findById(taskId).orElseThrow(() -> new NoSuchElementException("Задача не найдна"));
+   public TaskReadDto getTask(@AuthenticationPrincipal User user,
+                              @PathVariable("taskId") Long taskId) {
+        return taskService.findByIdAndUser(user, taskId);
    }
 
     @PatchMapping
-    public ResponseEntity<Task> updateTask(@PathVariable long id,
-                                           @Validated @RequestBody
-                                           TaskUpdateDto taskUpdateDto,
-                                           BindingResult bindingResult) {
+    public ResponseEntity<?> updateTask(@AuthenticationPrincipal User user,
+                                        @PathVariable("taskId") Long taskId,
+                                        @Validated @RequestBody
+                                        TaskUpdateDto taskUpdateDto,
+                                        BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
-            //Todo Добавить обработку исключения
+            if (bindingResult instanceof BindException exception) {
+              throw exception;
+            } else {
+                throw new BindException(bindingResult);
+            }
         }
-        taskService.updateTask(taskUpdateDto);
+        taskService.updateTask(user, taskId, taskUpdateDto);
         return ResponseEntity.noContent().build();
     }
 
-    // Удаление задачи
     @DeleteMapping
-    public ResponseEntity<Void> deleteTask(@PathVariable long id) {
-        taskService.deleteTask(id);
+    public ResponseEntity<Void> deleteTask(@AuthenticationPrincipal User user,
+                                           @PathVariable("taskId") Long taskId) {
+        taskService.deleteTask(user, taskId);
         return ResponseEntity.noContent().build();
     }
 

@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "tasks", schema = "app_data")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +26,12 @@ public class Task {
     String title;
     @Size(max = 1000)
     String description;
-    Boolean iscomplited;
+    @Builder.Default
+    Boolean iscomplited = false;
     @CreationTimestamp
     LocalDateTime createdAt;
     LocalDateTime completed_at;
-    @ManyToOne
     @JoinColumn(name = "id_user")
+    @ManyToOne(fetch = FetchType.LAZY)
     User user;
 }

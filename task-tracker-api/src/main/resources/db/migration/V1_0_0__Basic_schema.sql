@@ -14,7 +14,7 @@ CREATE TABLE app_data.tasks
 (
     id BIGSERIAL PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
-    description VARCHAR(1000) NOT NULL,
+    description VARCHAR(1000),
     iscomplited boolean not null,
     created_at TIMESTAMP not null,
     completed_at TIMESTAMP,
