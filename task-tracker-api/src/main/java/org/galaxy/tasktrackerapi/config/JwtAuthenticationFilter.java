@@ -32,8 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
-        try {
             var jwt = authHeader.substring(7);
             var userEmail = jwtService.extractUsername(jwt);
             var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -52,11 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
-
             filterChain.doFilter(request, response);
-        } catch (Exception exception) {
-            // Todo валидация ошибок
-        }
 
     }
 }

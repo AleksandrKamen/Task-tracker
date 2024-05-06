@@ -46,19 +46,19 @@ class TaskRestControllerTest {
     void updateTask_TaskWasUpdated_ReturnsNoContent() throws BindException {
         var user = new User();
         var taskId = 1L;
-        var taskUpdateDto = new TaskUpdateDto("Title update", "Description update");
+        var taskUpdateDto = new TaskUpdateDto("Title update", "Description update", false);
         var bindingResult = new MapBindingResult(Map.of(), "taskUpdateDto");
         var actualResult = taskRestController.updateTask(user, taskId, taskUpdateDto, bindingResult);
         assertNotNull(actualResult);
         assertEquals(actualResult.getStatusCode(), HttpStatus.NO_CONTENT);
-        verify(taskService).updateTask(user,1L, new TaskUpdateDto("Title update", "Description update"));
+        verify(taskService).updateTask(user,1L, new TaskUpdateDto("Title update", "Description update", false));
     }
 
     @Test
     void updateTask_InvalidRequest_ThrowBindingException() {
         var user = new User();
         var taskId = 1L;
-        var taskUpdateDto = new TaskUpdateDto("", "description test");
+        var taskUpdateDto = new TaskUpdateDto("", "description test", false);
         var bindingResult = new MapBindingResult(Map.of(), "taskCreateDto");
         bindingResult.addError(new FieldError("taskUpdateDto", "title", "error"));
         var actualResult = assertThrows(BindException.class, () -> taskRestController.updateTask(user, taskId, taskUpdateDto, bindingResult));

@@ -69,6 +69,7 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.findByIdAndUser(taskId, user).ifPresentOrElse(task -> {
             task.setTitle(taskUpdateDto.getTitle());
             task.setDescription(taskUpdateDto.getDescription());
+            task.setIscomplited(taskUpdateDto.getIscomplited());
         }, () -> {
             throw new TaskNotFoundException(messageSource.getMessage("tasks.errors.not_found",
                     new Object[0], LocaleContextHolder.getLocale()));

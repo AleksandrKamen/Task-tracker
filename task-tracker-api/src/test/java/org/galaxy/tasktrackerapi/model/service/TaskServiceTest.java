@@ -92,7 +92,7 @@ class TaskServiceTest {
     @Sql("/sql/tasks.sql")
     void updateTask_TaskWasUpdated() {
         var user = userRepository.findByUsername(USERNAME_TEST).get();
-        var taskUpdateDto = new TaskUpdateDto("TitleUpdate", "Description Update");
+        var taskUpdateDto = new TaskUpdateDto("TitleUpdate", "Description Update", false);
         taskService.updateTask(user, 1L, taskUpdateDto);
         var actualResult = taskRepository.findByIdAndUser(1L, user).get();
         assertEquals(actualResult.getTitle(), "TitleUpdate");
@@ -102,7 +102,7 @@ class TaskServiceTest {
     @Sql("/sql/user.sql")
     void updateTask_TaskNotExist_ThrowsTaskNotFoundException() {
         var user = userRepository.findByUsername(USERNAME_TEST).get();
-        var taskUpdateDto = new TaskUpdateDto("TitleUpdate", "Description Update");
+        var taskUpdateDto = new TaskUpdateDto("TitleUpdate", "Description Update", false);
         assertThrows(TaskNotFoundException.class, ()-> taskService.updateTask(user, 1L, taskUpdateDto));
     }
 
