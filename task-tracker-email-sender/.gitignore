@@ -31,5 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-/task-tracker-api/.mvn/
-/task-tracker-email-sender/.mvn/
