@@ -19,6 +19,7 @@
     <modules>
         <module>task-tracker-api</module>
         <module>task-tracker-email-sender</module>
+        <module>task-tracker-scheduler</module>
     </modules>
 
 
