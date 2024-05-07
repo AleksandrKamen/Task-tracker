@@ -1,1 +1,21 @@
-spring.application.name=task-tracker-email-sender
+rabbit:
+  queue_name: EMAIL_SENDING_TASKS
+spring:
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+  mail:
+    emailFrom:
+    username:
+    password:
+    host:
+    port: 587
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: false
+    test-connection: true
