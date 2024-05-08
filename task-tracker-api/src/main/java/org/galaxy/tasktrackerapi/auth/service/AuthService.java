@@ -2,6 +2,7 @@ package org.galaxy.tasktrackerapi.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import org.galaxy.tasktrackerapi.auth.dto.LoginUserDto;
+import org.galaxy.tasktrackerapi.auth.dto.MessageDto;
 import org.galaxy.tasktrackerapi.auth.dto.RegistrationUserDto;
 import org.galaxy.tasktrackerapi.exception.UserNotFoundException;
 import org.galaxy.tasktrackerapi.model.entity.User;
@@ -20,6 +21,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private  final UserServise userServise;
     private final MessageSource messageSource;
+    private final MessageProducerService messageProducerService;
 
     public User signup(RegistrationUserDto registrationUserDto) {
        return userServise.createUser(registrationUserDto);
@@ -37,6 +39,12 @@ public class AuthService {
                         input.getPassword()
                 )
         );
+        messageProducerService.sendMessage(MessageDto.builder()
+                        .email(input.getUsername())
+                        .title("Верификация вашей почты")
+                        .text("%s Добро пожаловать на наш сервис".formatted(input.getUsername()))
+                .build());
+
 
         return userOptional.get();
     }
