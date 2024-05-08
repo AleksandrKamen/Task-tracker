@@ -1,3 +1,9 @@
+rabbit:
+  queue_name: EMAIL_SENDING_TASKS
+rabbitmq:
+  username: guest
+  password: guest
+  host: localhost
 spring:
   jpa:
     show-sql: true

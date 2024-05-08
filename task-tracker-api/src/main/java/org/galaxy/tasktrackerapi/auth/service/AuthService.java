@@ -1,6 +1,7 @@
 package org.galaxy.tasktrackerapi.auth.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.galaxy.tasktrackerapi.auth.dto.LoginUserDto;
 import org.galaxy.tasktrackerapi.auth.dto.MessageDto;
 import org.galaxy.tasktrackerapi.auth.dto.RegistrationUserDto;
@@ -16,15 +17,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private  final UserServise userServise;
     private final MessageSource messageSource;
-    private final MessageProducerService messageProducerService;
 
     public User signup(RegistrationUserDto registrationUserDto) {
-       return userServise.createUser(registrationUserDto);
+        log.info("Signing up user {}", registrationUserDto.getUsername());
+        return userServise.createUser(registrationUserDto);
     }
 
     public User authenticate(LoginUserDto input) {
@@ -39,13 +41,7 @@ public class AuthService {
                         input.getPassword()
                 )
         );
-        messageProducerService.sendMessage(MessageDto.builder()
-                        .email(input.getUsername())
-                        .title("Верификация вашей почты")
-                        .text("%s Добро пожаловать на наш сервис".formatted(input.getUsername()))
-                .build());
-
-
+        log.info("User authenticated: {}", userOptional.get().getUsername());
         return userOptional.get();
     }
 }

@@ -3,7 +3,9 @@ package org.galaxy.tasktrackerapi.controller;
 import lombok.RequiredArgsConstructor;
 import org.galaxy.tasktrackerapi.auth.dto.LoginResponse;
 import org.galaxy.tasktrackerapi.auth.dto.LoginUserDto;
+import org.galaxy.tasktrackerapi.auth.dto.MessageDto;
 import org.galaxy.tasktrackerapi.auth.dto.RegistrationUserDto;
+import org.galaxy.tasktrackerapi.auth.service.MessageProducerService;
 import org.galaxy.tasktrackerapi.model.entity.User;
 import org.galaxy.tasktrackerapi.auth.service.AuthService;
 import org.galaxy.tasktrackerapi.auth.service.JwtService;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     private final JwtService jwtService;
     private final AuthService authenticationService;
+    private final MessageProducerService messageProducerService;
 
     @PostMapping("registration")
     public ResponseEntity<User> registration(@RequestBody @Validated RegistrationUserDto registrationUserDto,
@@ -34,6 +37,11 @@ public class AuthenticationController {
             }
         }
         var registeredUser = authenticationService.signup(registrationUserDto);
+        messageProducerService.sendMessage(MessageDto.builder()
+                .email(registrationUserDto.getUsername())
+                .title("Верификация вашей почты")
+                .text("%s Добро пожаловать на наш сервис".formatted(registrationUserDto.getUsername()))
+                .build());
         return ResponseEntity.ok(registeredUser);
     }
 
