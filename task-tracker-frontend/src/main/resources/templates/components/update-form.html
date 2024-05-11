@@ -1,0 +1,32 @@
+<body>
+<div class="modal fade" id="update-task" tabindex="-1" aria-labelledby="update-task" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="update-taskLabel">Изменение задачи</h1>
+            </div>
+            <form id="task-update-form">
+                <div class="modal-body">
+                    <span type="hidden" id="update-id" name="taskId"></span>
+                    <div>
+                        <span>Название</span> <br>
+                        <input type="text" id="update-title" name="title" maxlength="30" required>
+                    </div>
+                    <div>
+                        <span>Описание задачи</span> <br>
+                        <textarea id="update-description" name="description" maxlength="1000"></textarea>
+                    </div>
+                    <div class="error-message-update" >
+                        <span id="error-text-update"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Изменить</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>

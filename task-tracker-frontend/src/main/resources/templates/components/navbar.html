@@ -1,0 +1,19 @@
+<body>
+<div th:fragment="navbar">
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+<!--                <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">-->
+                Task tracker
+            </a>
+            <div class="navbar-text ms-auto">
+                <span id="span-username"></span>
+                    <button type="submit" class="icon-button" data-toggle="tooltip"
+                            th:title="#{navbar.exit.link}" id="logout_btn">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </button>
+            </div >
+        </div>
+    </nav>
+</div>
+</body>

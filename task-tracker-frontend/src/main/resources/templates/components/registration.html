@@ -1,0 +1,51 @@
+<body>
+<section class="main-content">
+    <div class="container mt-3" >
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="mb-4" th:text="#{registration.title}"></h1>
+                <form id="registration-form">
+                    <div class="mb-3">
+                        <label for="reg_username" class="form-label" th:text="#{user.email}"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                            <input type="text" class="form-control" id="reg_username" name="username"
+                                   th:placeholder="#{placeholder.username}" >
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reg_rawPassword" class="form-label" th:text="#{user.password}"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input type="password" class="form-control" id="reg_rawPassword" name="rawPassword"
+                                   th:placeholder="#{placeholder.password}" minlength="3" maxlength="10" required>
+                            <button class="btn btn-outline-secondary toggle-password" type="button"
+                                    th:text="#{show.btn}"></button>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reg_confirmPassword" class="form-label"
+                               th:text="#{registration.confirm.password}"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input type="password" class="form-control" id="reg_confirmPassword" name="confirmPassword"
+                                   th:placeholder="#{registration.placeholder.confirm.password}" >
+                            <button class="btn btn-outline-secondary toggle-password" type="button" th:text="#{show.btn}"></button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="terms-and-conditions" required>
+                        <label class="form-check-label" for="terms-and-conditions"
+                               th:text="#{registration.robot.check}"></label>
+                    </div>
+                    <button type="submit" class="btn btn-primary" th:text="#{registration.title}"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="error-message-registration" style="display: none;">
+        <span id="error-text-registration"></span>
+    </div>
+</section>
+</body>

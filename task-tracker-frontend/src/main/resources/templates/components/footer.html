@@ -1,0 +1,36 @@
+<body>
+<div th:fragment="footer">
+    <footer>
+        <section class="footer">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-md-3 col-6">
+                        <h4 th:text="#{footer.project.information}"></h4>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="https://zhukovsd.github.io/java-backend-learning-course/Projects/TaskTracker/"
+                                   th:text="#{footer.project.description}"></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <h4 th:text="#{footer.development}"></h4>
+                        <ul class="list-unstyled">
+                            <li><a href="https://github.com/AleksandrKamen">
+                                <i class="fa-solid fa-copyright"></i><span th:text="#{footer.copyright}"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <h4 th:text="#{footer.contacts}"></h4>
+                        <div class="footer-icon">
+                            <a href="https://github.com/AleksandrKamen/Galaxy_drive"><i class="fa-brands fa-github"></i></a>
+                            <a href="https://t.me/KamenAlexandr"><i class="fa-brands fa-telegram"></i></a>
+                            <a href="mailto:kamenev64kas@gmail.com"><i class="fa-brands fa-google"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>
+</div>
+</body>
