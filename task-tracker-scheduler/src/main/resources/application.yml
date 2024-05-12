@@ -15,6 +15,6 @@ server:
 message:
   last_hours: 24
   text_count_limit: 5
-  report_complited_cron: 0 0 0 * * *
-  report_not_complited_cron: 0 0 0 * * *
+  report_completed_cron: 0 0 0 * * *
+  report_not_completed_cron: 0 0 0 * * *
 

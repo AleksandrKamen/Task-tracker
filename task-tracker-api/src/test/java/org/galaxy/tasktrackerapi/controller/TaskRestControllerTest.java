@@ -35,12 +35,12 @@ class TaskRestControllerTest {
         var user = new User();
         var taskId = 1L;
         //when
-        when(taskService.findByIdAndUser(user, taskId)).thenReturn(new TaskReadDto(1L, "Title test", "Description test",
-                LocalDateTime.of(2024,5,5,10,10)));
+        when(taskService.findByIdAndUser(user, taskId)).thenReturn(new TaskReadDto(1L, "Title test", "Description test", false,
+                LocalDateTime.of(2024,5,5,10,10), null));
         var actualResult = taskRestController.getTask(user, taskId);
         //then
-        assertThat(actualResult).isEqualTo(new TaskReadDto(1L, "Title test", "Description test",
-                LocalDateTime.of(2024,5,5,10,10)));
+        assertThat(actualResult).isEqualTo(new TaskReadDto(1L, "Title test", "Description test", false,
+                LocalDateTime.of(2024,5,5,10,10), null));
     }
     @Test
     void updateTask_TaskWasUpdated_ReturnsNoContent() throws BindException {

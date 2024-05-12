@@ -21,27 +21,27 @@
 <div id="registration" style="display: none;"  th:insert="~{components/registration}"></div>
 <div id="authorization"  style="display: none;" th:insert="~{components/authorization}"></div>
 
-<section class="main-content">
+<section class="main-content" id="index">
     <th:block th:insert="~{components/create-form}"></th:block>
     <div class="container">
-        <div class="row">
-            <div class="card">
-                <div class="card-header">Не завершенные задачи</div>
-                <ul class="list-group list-group-flush" id="unfulfilled-tasks">
-
-                </ul>
-
+        <div class="row justify-content-center">
+            <div class="col-sm ">
+                <div class="card">
+                    <div class="card-header " th:text="#{unfinished.tasks}"></div>
+                    <ul class="list-group list-group-flush" id="unfulfilled-tasks"></ul>
+                </div>
             </div>
-            <div class="card">
-                <div class="card-header">Завершенные</div>
-                <ul class="list-group list-group-flush" id="done-tasks">
-
-                </ul>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-header" th:text="#{completed.tasks}"></div>
+                    <ul class="list-group list-group-flush" id="completed-tasks"></ul>
+                </div>
             </div>
-
-
             <th:block th:insert="~{components/update-form}"></th:block>
         </div>
+    </div>
+    <div class="error-message-index">
+        <span id="error-text-index"></span>
     </div>
 </section>
 <div th:insert="~{components/footer}"></div>
@@ -49,6 +49,10 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous">
 </script>
+<script
+        src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"
+        integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c="
+        crossorigin="anonymous"></script>
 <script src="/js/main.js"></script>
 </body>
 
