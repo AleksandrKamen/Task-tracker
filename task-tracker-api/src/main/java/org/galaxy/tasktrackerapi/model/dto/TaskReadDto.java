@@ -7,6 +7,8 @@ public class TaskReadDto {
     Long id;
     String title;
     String description;
+    Boolean iscompleted;
     LocalDateTime createdAt;
+    LocalDateTime completed_at;
 
 }

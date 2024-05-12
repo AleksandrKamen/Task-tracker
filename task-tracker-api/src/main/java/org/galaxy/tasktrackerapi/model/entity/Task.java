@@ -27,7 +27,7 @@ public class Task {
     @Size(max = 1000)
     String description;
     @Builder.Default
-    Boolean iscomplited = false;
+    Boolean iscompleted = false;
     @CreationTimestamp
     LocalDateTime createdAt;
     LocalDateTime completed_at;

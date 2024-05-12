@@ -37,18 +37,18 @@ class TasksRestControllerTest {
         var user = new User();
         when(taskService.findAllTasks(user, iscompleted)).thenReturn(
                 List.of(
-                new TaskReadDto(1L, "Название задачи №1", "Описание задачи №1",
-                        LocalDateTime.of(2024,5,5,10,10)),
-                new TaskReadDto(2L, "Название задачи №2", "Описание задачи №2",
-                        LocalDateTime.of(2024,5,5,12,10)))
+                new TaskReadDto(1L, "Название задачи №1", "Описание задачи №1", false,
+                        LocalDateTime.of(2024,5,5,10,10), null),
+                new TaskReadDto(2L, "Название задачи №2", "Описание задачи №2", false,
+                        LocalDateTime.of(2024,5,5,12,10),null))
         );
         var allTasks = tasksRestController.getAllTasks(user, iscompleted);
         assertEquals(allTasks,
                 List.of(
-                new TaskReadDto(1L, "Название задачи №1", "Описание задачи №1",
-                        LocalDateTime.of(2024,5,5,10,10)),
-                new TaskReadDto(2L, "Название задачи №2", "Описание задачи №2",
-                        LocalDateTime.of(2024,5,5,12,10)))
+                new TaskReadDto(1L, "Название задачи №1", "Описание задачи №1", false,
+                        LocalDateTime.of(2024,5,5,10,10),null),
+                new TaskReadDto(2L, "Название задачи №2", "Описание задачи №2", false,
+                        LocalDateTime.of(2024,5,5,12,10),null))
         );
     }
     @Test
@@ -58,14 +58,14 @@ class TasksRestControllerTest {
         var bindingResult = new MapBindingResult(Map.of(), "taskCreateDto");
         var uriComponentsBuilder = UriComponentsBuilder.fromUriString("http://localhost");
         when(taskService.createTask(user, taskCreateDto))
-                .thenReturn(new TaskReadDto(1L, "Title test", "description test",
-                        LocalDateTime.of(2024,5,5,10,10)));
+                .thenReturn(new TaskReadDto(1L, "Title test", "description test", false,
+                        LocalDateTime.of(2024,5,5,10,10),null));
         var actualResult = tasksRestController.createTask(user, taskCreateDto, bindingResult, uriComponentsBuilder);
         assertNotNull(actualResult);
         assertEquals(actualResult.getStatusCode(), HttpStatus.CREATED);
         assertEquals(actualResult.getHeaders().getLocation(), URI.create("http://localhost/api/v1/tasks/1"));
-        assertEquals(actualResult.getBody(), new TaskReadDto(1L, "Title test", "description test",
-                LocalDateTime.of(2024,5,5,10,10)));
+        assertEquals(actualResult.getBody(), new TaskReadDto(1L, "Title test", "description test", false,
+                LocalDateTime.of(2024,5,5,10,10),null));
         verifyNoMoreInteractions(taskService);
 
     }

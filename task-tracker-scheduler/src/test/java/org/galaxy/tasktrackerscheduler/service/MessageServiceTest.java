@@ -21,15 +21,15 @@ class MessageServiceTest {
     @BeforeEach
     void init() {
         var tasks = List.of(
-                Task.builder().title("Задача №1").iscomplited(true).completed_at(LocalDateTime.now().minusHours(2L)).build(),
-                Task.builder().title("Задача №2").iscomplited(true).completed_at(LocalDateTime.now().minusHours(10L)).build(),
-                Task.builder().title("Задача №3").iscomplited(true).completed_at(LocalDateTime.now().minusHours(30L)).build(),
-                Task.builder().title("Задача №4").iscomplited(false).build(),
-                Task.builder().title("Задача №5").iscomplited(false).build(),
-                Task.builder().title("Задача №6").iscomplited(false).build(),
-                Task.builder().title("Задача №7").iscomplited(false).build(),
-                Task.builder().title("Задача №8").iscomplited(false).build(),
-                Task.builder().title("Задача №9").iscomplited(false).build()
+                Task.builder().title("Задача №1").iscompleted(true).completed_at(LocalDateTime.now().minusHours(2L)).build(),
+                Task.builder().title("Задача №2").iscompleted(true).completed_at(LocalDateTime.now().minusHours(10L)).build(),
+                Task.builder().title("Задача №3").iscompleted(true).completed_at(LocalDateTime.now().minusHours(30L)).build(),
+                Task.builder().title("Задача №4").iscompleted(false).build(),
+                Task.builder().title("Задача №5").iscompleted(false).build(),
+                Task.builder().title("Задача №6").iscompleted(false).build(),
+                Task.builder().title("Задача №7").iscompleted(false).build(),
+                Task.builder().title("Задача №8").iscompleted(false).build(),
+                Task.builder().title("Задача №9").iscompleted(false).build()
         );
 
         user = User.builder()

@@ -1,4 +1,4 @@
-insert into app_data.tasks(id, title, description, iscomplited, created_at, completed_at, id_user)
+insert into app_data.tasks(id, title, description, iscompleted, created_at, completed_at, id_user)
 VALUES
 (1, 'Первая задача', 'Описание первой задачи', true, '2024-05-05 12:00:00', '2024-05-05 14:00:00',1),
 (2, 'Вторая задача', 'Описание второй задачи', false, '2024-05-05 12:00:00', null,1),

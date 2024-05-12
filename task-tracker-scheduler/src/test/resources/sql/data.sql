@@ -5,7 +5,7 @@ VALUES
  (3, 'test3@gmail.com', 'test', now(), now(), 'USER'),
  (4, 'test4@gmail.com', 'test', now(), now(), 'USER');
 
-INSERT INTO app_data.tasks (id, title, description, iscomplited, created_at, completed_at, id_user) VALUES
+INSERT INTO app_data.tasks (id, title, description, iscompleted, created_at, completed_at, id_user) VALUES
  (1, 'Первая задача', 'Описание первой задачи', true, '2024-05-05 12:00:00', NOW() - INTERVAL '1 hour', 1),
  (2, 'Вторая задача', 'Описание второй задачи', false, '2024-05-05 12:00:00', null,1),
  (3, 'Третья задача', 'Описание третьей задачи', true, '2024-05-05 12:00:00', NOW() - INTERVAL '3 hours',1),

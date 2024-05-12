@@ -22,7 +22,7 @@ public class MessageService {
 
     public MessageDto createCompletedTaskMessage(User user) {
         var allCompletedTask = user.getTasks().stream()
-                .filter(task -> task.getIscomplited())
+                .filter(task -> task.getIscompleted())
                 .filter(task -> task.getCompleted_at().isAfter(LocalDateTime.now().minusHours(lastHours)))
                 .limit(textCountLimit)
                 .toList();
@@ -36,7 +36,7 @@ public class MessageService {
     public MessageDto createNotCompletedTaskMessage(User user) {
         var allNotCompletedTask = user.getTasks()
                 .stream()
-                .filter(task -> !task.getIscomplited())
+                .filter(task -> !task.getIscompleted())
                 .toList();
         var allNotCompletedTaskTitles = allNotCompletedTask
                 .stream()

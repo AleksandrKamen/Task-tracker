@@ -14,6 +14,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -46,7 +48,7 @@ public class TaskServiceImpl implements TaskService {
             var tasks = (List<Task>) taskRepository.findByUser(user);
             return tasks.stream().map(taskMapper::taskToTaskReadDto).toList();
         } else {
-            var tasks = taskRepository.findByIscomplitedAndUser(iscompleted, user);
+            var tasks = taskRepository.findByIscompletedAndUser(iscompleted, user);
             return tasks.stream().map(taskMapper::taskToTaskReadDto).toList();
         }
     }
@@ -62,14 +64,25 @@ public class TaskServiceImpl implements TaskService {
        }
     }
 
-
     @Transactional
     @Override
     public void updateTask(User user, Long taskId, TaskUpdateDto taskUpdateDto) {
         taskRepository.findByIdAndUser(taskId, user).ifPresentOrElse(task -> {
             task.setTitle(taskUpdateDto.getTitle());
             task.setDescription(taskUpdateDto.getDescription());
-            task.setIscomplited(taskUpdateDto.getIscomplited());
+
+            if (taskUpdateDto.getIscompleted() != null){
+                if (taskUpdateDto.getIscompleted() == true && task.getIscompleted() != true){
+                    task.setIscompleted(taskUpdateDto.getIscompleted());
+                    task.setCompleted_at(LocalDateTime.now());
+                }
+                if (taskUpdateDto.getIscompleted() == false && task.getIscompleted() != false){
+                    task.setIscompleted(taskUpdateDto.getIscompleted());
+                    task.setCompleted_at(null);
+                }
+
+            }
+
         }, () -> {
             throw new TaskNotFoundException(messageSource.getMessage("tasks.errors.not_found",
                     new Object[0], LocaleContextHolder.getLocale()));

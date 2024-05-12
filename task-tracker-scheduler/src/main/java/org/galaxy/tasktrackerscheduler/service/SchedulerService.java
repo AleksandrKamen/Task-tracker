@@ -19,7 +19,7 @@ public class SchedulerService {
     private final MessageProducerService messageProducerService;
     private final UserRepository userRepository;
 
-    @Scheduled(cron = "${message.report_complited_cron}")
+    @Scheduled(cron = "${message.report_completed_cron}")
     public void createReportCompletedTasks() {
         var allUsersWhoCompletedTaskAfterDate = userRepository.findAllUsersWhoCompletedTaskAfterDate(
                 LocalDateTime.now().minusHours(lastHours));
@@ -28,7 +28,7 @@ public class SchedulerService {
                 .forEach(messageProducerService::sendMessage);
     }
 
-    @Scheduled(cron = "${message.report_not_complited_cron}")
+    @Scheduled(cron = "${message.report_not_completed_cron}")
     public void createReportNotCompletedTasks() {
         userRepository.findAllUsersWhoHaveUnfinishedTasks()
                 .stream().map(messageService::createNotCompletedTaskMessage)

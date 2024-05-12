@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
-    @Query("SELECT u from User u LEFT JOIN u.tasks t WHERE t.iscomplited = false")
+    @Query("SELECT u from User u LEFT JOIN u.tasks t WHERE t.iscompleted = false")
     List<User> findAllUsersWhoHaveUnfinishedTasks();
 
     @Query("SELECT u from User u LEFT JOIN u.tasks t WHERE t.completed_at >:date")

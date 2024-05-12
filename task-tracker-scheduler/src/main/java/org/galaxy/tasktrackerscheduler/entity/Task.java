@@ -22,7 +22,7 @@ public class Task {
     String title;
     String description;
     @Builder.Default
-    Boolean iscomplited = false;
+    Boolean iscompleted = false;
     @CreationTimestamp
     LocalDateTime createdAt;
     LocalDateTime completed_at;

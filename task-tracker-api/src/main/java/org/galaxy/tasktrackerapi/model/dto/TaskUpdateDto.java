@@ -12,6 +12,7 @@ public class TaskUpdateDto {
     @NotNull(message = "{tasks.create.errors.description_is_null}")
     @Size(max=1000, message = "{tasks.create.errors.description_size_is_invalid}")
     String description;
-    Boolean iscomplited;
+    Boolean iscompleted;
+
 }
 
