@@ -1,40 +1,40 @@
 <body>
-<div class="create-menu dropdown border border-1 rounded-pill w-25">
-    <a class="btn btn-lg" href="#" role="button" data-bs-toggle="modal" data-bs-target="#create-task"
+<div class="create-menu dropdown border border-1 rounded-pill">
+    <a class="btn btn-lg" id="modal-create-link" role="button" data-bs-toggle="modal" data-bs-target="#create-task"
        aria-expanded="false">
             <span class="d-none d-lg-inline">
-                <i class="fa-solid fa-plus me-3"></i><span>Создать новую задачу</span>
+                <i class="fa-solid fa-plus"></i> <br>
+                <span th:text="#{create.form-new-task}"></span>
             </span>
         <span class="d-inline d-lg-none">
                 <i class="fa-solid fa-plus"></i>
         </span>
     </a>
 </div>
-<!--modal-->
-<div class="modal fade" id="create-task" tabindex="-1" aria-labelledby="create-task" aria-hidden="true">
+<div class="modal fade draggable-modal" id="create-task" tabindex="-1" aria-labelledby="create-task" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="create-taskLabel">Новая задача</h1>
+                <h1 class="modal-title fs-5" id="create-taskLabel" th:text="#{create.form-new-task}"></h1>
             </div>
             <form id="task-create-form">
                 <div class="modal-body">
                     <div>
-                        <span>Название</span> <br>
-                        <input type="text" name="title" maxlength="30" required>
+                        <span th:text="#{create.form-title}"></span> <br>
+                        <input id="title" type="text" name="title" minlength="3" maxlength="50" required>
                     </div>
                     <div>
-                        <span>Описание задачи</span> <br>
+                        <span th:text="#{create.form-description}"></span> <br>
                         <textarea id="description" name="description" maxlength="1000"></textarea>
                     </div>
-                    <div class="error-message-create" >
+                    <div class="error-message-create">
                         <span id="error-text-create"></span>
                     </div>
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                    <button type="submit" class="btn btn-primary">Создать</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            th:text="#{create.form-cancel}"></button>
+                    <button type="submit" class="btn btn-primary" th:text="#{home.page.create.btn}"></button>
                 </div>
             </form>
         </div>

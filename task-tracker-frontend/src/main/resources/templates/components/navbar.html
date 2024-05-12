@@ -3,11 +3,11 @@
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand">
-<!--                <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">-->
-                Task tracker
+                <img src="/picture/Untitled_logo_1_free-file.jpg" id="logo" alt="">
+                <span th:text="#{navbar.title}"></span>
             </a>
             <div class="navbar-text ms-auto">
-                <span id="span-username"></span>
+                <span id="span-username" data-toggle="tooltip"  th:title="#{navbar.username}"></span>
                     <button type="submit" class="icon-button" data-toggle="tooltip"
                             th:title="#{navbar.exit.link}" id="logout_btn">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>

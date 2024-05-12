@@ -4,6 +4,10 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <h1 class="mb-4" th:text="#{authorization.title}"></h1>
+                <h6 class="mb-4">
+                    <span th:text="#{authorization.question.about.account}" class="me-2"></span>
+                    <a href="#" id="registration-link" th:text="#{authorization.registration.link}"></a>
+                </h6>
                 <form id="authorization-form">
                     <div class="mb-3">
                         <label for="username" class="form-label" th:text="#{user.email}"></label>
@@ -29,7 +33,7 @@
             </div>
         </div>
     </div>
-    <div class="error-message-authorization" style="display: none;">
+    <div class="error-message-authorization">
         <span id="error-text-authorization"></span>
     </div>
 </section>

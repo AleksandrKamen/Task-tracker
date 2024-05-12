@@ -3,26 +3,30 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="update-taskLabel">Изменение задачи</h1>
+                <h1 class="modal-title fs-5" id="update-taskLabel" th:text="#{update.form.title}"></h1>
             </div>
             <form id="task-update-form">
                 <div class="modal-body">
                     <span type="hidden" id="update-id" name="taskId"></span>
                     <div>
-                        <span>Название</span> <br>
-                        <input type="text" id="update-title" name="title" maxlength="30" required>
+                        <span th:text="#{update.form.task-title}"></span> <br>
+                        <input type="text" id="update-title" name="title" minlength="3" maxlength="30" required>
                     </div>
                     <div>
-                        <span>Описание задачи</span> <br>
+                        <span th:text="#{update.form.task-description}"></span> <br>
                         <textarea id="update-description" name="description" maxlength="1000"></textarea>
+                    </div>
+                    <div>
+                        <input type="hidden" name="iscompleted" value="false">
+                        <input type="checkbox" id="iscompleted" name="iscompleted" checked> <span th:text="#{update.form.task-completed}"></span>
                     </div>
                     <div class="error-message-update" >
                         <span id="error-text-update"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                    <button type="submit" class="btn btn-primary">Изменить</button>
+                    <button id="delete-button" type="button" class="btn btn-danger" data-bs-dismiss="modal" th:text="#{update.form.task-delete}"></button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" th:text="#{update.form.task-close}"></button>
                 </div>
             </form>
 

@@ -1,16 +1,20 @@
 <body>
 <section class="main-content">
-    <div class="container mt-3" >
+    <div class="container mt-3">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <h1 class="mb-4" th:text="#{registration.title}"></h1>
+                <h6 class="mb-4">
+                    <span th:text="#{registration.question.about.account}" class="me-2"></span>
+                    <a id="authorization-link" href="#" th:text="#{registration.authorization.link}"></a>
+                </h6>
                 <form id="registration-form">
                     <div class="mb-3">
                         <label for="reg_username" class="form-label" th:text="#{user.email}"></label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
                             <input type="text" class="form-control" id="reg_username" name="username"
-                                   th:placeholder="#{placeholder.username}" >
+                                   th:placeholder="#{placeholder.username}">
                         </div>
                     </div>
                     <div class="mb-3">
@@ -29,8 +33,9 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-lock"></i></span>
                             <input type="password" class="form-control" id="reg_confirmPassword" name="confirmPassword"
-                                   th:placeholder="#{registration.placeholder.confirm.password}" >
-                            <button class="btn btn-outline-secondary toggle-password" type="button" th:text="#{show.btn}"></button>
+                                   th:placeholder="#{registration.placeholder.confirm.password}">
+                            <button class="btn btn-outline-secondary toggle-password" type="button"
+                                    th:text="#{show.btn}"></button>
                         </div>
                     </div>
 
@@ -44,7 +49,7 @@
             </div>
         </div>
     </div>
-    <div class="error-message-registration" style="display: none;">
+    <div class="error-message-registration">
         <span id="error-text-registration"></span>
     </div>
 </section>
