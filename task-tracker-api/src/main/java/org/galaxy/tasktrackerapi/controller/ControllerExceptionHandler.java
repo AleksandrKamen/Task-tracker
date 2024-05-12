@@ -1,6 +1,7 @@
 package org.galaxy.tasktrackerapi.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.galaxy.tasktrackerapi.exception.TaskNotFoundException;
 import org.galaxy.tasktrackerapi.exception.UserAlreadyExistException;
 import org.galaxy.tasktrackerapi.exception.UserNotFoundException;
@@ -16,12 +17,13 @@ import java.util.Locale;
 
 @ControllerAdvice
 @RequiredArgsConstructor
+@Slf4j
 public class ControllerExceptionHandler {
     private final MessageSource messageSource;
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ProblemDetail> handleBindException(org.springframework.validation.BindException bindException, Locale locale) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+        var problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.BAD_REQUEST, messageSource.getMessage("errors.400.title", new Object[0],
                         "errors.400.title", locale));
         problemDetail.setProperty("errors", bindException.getAllErrors().stream()
@@ -32,7 +34,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistException.class)
     public ResponseEntity<ProblemDetail> handleUserAlreadyExistException(UserAlreadyExistException exception, Locale locale) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+        var problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.CONFLICT, messageSource.getMessage("errors.409.title", new Object[0],
                         "errors.409.title", locale));
         problemDetail.setProperty("errors", exception.getMessage());
@@ -46,6 +48,17 @@ public class ControllerExceptionHandler {
                         "errors.404.title", locale));
         problemDetail.setProperty("errors", exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> handleException(Exception exception, Locale locale) {
+        log.error(exception.getMessage(), exception);
+        var problemDetail = ProblemDetail.forStatusAndDetail(
+        HttpStatus.INTERNAL_SERVER_ERROR, messageSource.getMessage("errors.500.title", new Object[0],
+                "errors.500.title", locale));
+        problemDetail.setProperty("errors", messageSource.getMessage("errors.500.description", new Object[0],
+                "errors.500.description", locale));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
     }
 
 }
