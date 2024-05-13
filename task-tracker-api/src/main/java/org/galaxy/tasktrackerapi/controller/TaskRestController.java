@@ -41,11 +41,11 @@ public class TaskRestController {
         return ResponseEntity.noContent().build();
     }
 
+
     @DeleteMapping
     public ResponseEntity<Void> deleteTask(@AuthenticationPrincipal User user,
                                            @PathVariable("taskId") Long taskId) {
         taskService.deleteTask(user, taskId);
         return ResponseEntity.noContent().build();
     }
-
 }

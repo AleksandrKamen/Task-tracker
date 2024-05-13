@@ -34,3 +34,4 @@ build/
 /task-tracker-api/.mvn/
 /task-tracker-email-sender/.mvn/
 /task-tracker-scheduler/.mvn/
+/.env

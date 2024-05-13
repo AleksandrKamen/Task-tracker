@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserRestController {
     private final UserServise userServise;
 
-
     @GetMapping
     public ResponseEntity<?> findUser(@AuthenticationPrincipal UserDetails userDetails) {
         var user = userServise.findByUsername(userDetails.getUsername());

@@ -23,13 +23,11 @@ public class TasksRestController {
     private final TaskService taskService;
 
     @GetMapping
-    @CrossOrigin
     public List<TaskReadDto> getAllTasks(@AuthenticationPrincipal User user,
                                          @RequestParam(value = "filter", required = false) Boolean iscompleted) {
         return taskService.findAllTasks(user, iscompleted);
     }
 
-    @CrossOrigin
     @PostMapping
     public ResponseEntity<?> createTask(@AuthenticationPrincipal User user,
                                         @Validated @RequestBody TaskCreateDto taskCreateDto,

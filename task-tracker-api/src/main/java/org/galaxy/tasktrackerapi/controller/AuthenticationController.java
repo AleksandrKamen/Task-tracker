@@ -13,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth/")
@@ -44,7 +41,6 @@ public class AuthenticationController {
                 .build());
         return ResponseEntity.ok(registeredUser);
     }
-
     @PostMapping("login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody @Validated LoginUserDto loginUserDto,
                                                       BindingResult bindingResult) throws BindException {
@@ -59,7 +55,7 @@ public class AuthenticationController {
         var jwtToken = jwtService.generateToken(user);
         var loginResponse = LoginResponse.builder()
                 .token(jwtToken)
-                .expiresIn(jwtService.getExpirationTime())
+                .expiresIn(System.currentTimeMillis() + jwtService.getExpirationTime())
                 .build();
         return ResponseEntity.ok(loginResponse);
     }
