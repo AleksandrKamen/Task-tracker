@@ -1,0 +1,14 @@
+rabbit:
+  queue_name: EMAIL_SENDING_TASKS
+spring:
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+  datasource:
+    url: jdbc:postgresql://localhost:5432/data
+    username: postgres
+    password: postgres
+
+
+

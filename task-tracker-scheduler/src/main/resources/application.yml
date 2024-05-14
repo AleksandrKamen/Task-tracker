@@ -1,20 +1,8 @@
-rabbit:
-  queue_name: EMAIL_SENDING_TASKS
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/data
-    username: postgres
-    password: postgres
     driver-class-name: org.postgresql.Driver
-  rabbitmq:
-    username: guest
-    password: guest
-    host: localhost
-server:
-  port: 8081
 message:
-  last_hours: 24
-  text_count_limit: 5
+  report_time_in_hours: 24
+  titles_count_limit: 5
   report_completed_cron: 0 0 0 * * *
   report_not_completed_cron: 0 0 0 * * *
-

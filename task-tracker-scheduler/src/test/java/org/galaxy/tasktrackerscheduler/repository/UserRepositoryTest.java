@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,8 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Sql("/sql/init.sql")
 @Sql("/sql/data.sql")
 class UserRepositoryTest {
-    @Value("${message.last_hours}")
-    private Long lastHours;
+    @Value("${message.report_time_in_hours}")
+    private Long reportTimeInHours;
 
     @Container
     @ServiceConnection
@@ -39,8 +38,8 @@ class UserRepositoryTest {
         assertThat(actualResult).hasSize(3);
     }
     @Test
-    void findAllUsersWhoCompletedTaskLastDay_Returns_3_Users() {
-        var actualResult = userRepository.findAllUsersWhoCompletedTaskAfterDate(LocalDateTime.now().minusHours(lastHours));
+    void findAllUsersWhoCompletedTaskLastDay_Returns_2_Users() {
+        var actualResult = userRepository.findAllUsersWhoCompletedTaskAfterDate(LocalDateTime.now().minusHours(reportTimeInHours));
         assertThat(actualResult).hasSize(2);
     }
 }
