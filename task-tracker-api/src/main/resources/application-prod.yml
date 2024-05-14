@@ -1,0 +1,15 @@
+rabbit:
+  queue_name: ${RABBITMQ_QUEUE_NAME}
+spring:
+  rabbitmq:
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
+    host: rabbitmq
+  datasource:
+    url: jdbc:postgresql://postgres_db:5432/${POSTGRES_DATABASE}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+security:
+  jwt:
+    secret-key: ${JWT_SECRET_KEY}
+    expiration-time: ${JWT_EXPIRATION_TIME}

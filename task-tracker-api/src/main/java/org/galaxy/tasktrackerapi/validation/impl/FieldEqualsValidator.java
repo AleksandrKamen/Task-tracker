@@ -9,11 +9,13 @@ public class FieldEqualsValidator implements ConstraintValidator<FieldEquals, Ob
 
     private String field;
     private String equalsTo;
+
     @Override
     public void initialize(FieldEquals constraintAnnotation) {
         field = constraintAnnotation.field();
         equalsTo = constraintAnnotation.equalsTo();
     }
+
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         var fieldValue = FieldValueUtil.getFieldValue(value, field);

@@ -5,6 +5,7 @@ import org.galaxy.tasktrackerapi.model.dto.TaskReadDto;
 import org.galaxy.tasktrackerapi.model.dto.TaskUpdateDto;
 import org.galaxy.tasktrackerapi.model.entity.User;
 import org.galaxy.tasktrackerapi.model.service.TaskService;
+import org.galaxy.tasktrackerapi.validation.BindingUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindException;
@@ -18,11 +19,11 @@ import org.springframework.web.bind.annotation.*;
 public class TaskRestController {
     private final TaskService taskService;
 
-   @GetMapping
-   public TaskReadDto getTask(@AuthenticationPrincipal User user,
-                              @PathVariable("taskId") Long taskId) {
+    @GetMapping
+    public TaskReadDto getTask(@AuthenticationPrincipal User user,
+                               @PathVariable("taskId") Long taskId) {
         return taskService.findByIdAndUser(user, taskId);
-   }
+    }
 
     @PatchMapping
     public ResponseEntity<?> updateTask(@AuthenticationPrincipal User user,
@@ -30,17 +31,10 @@ public class TaskRestController {
                                         @Validated @RequestBody
                                         TaskUpdateDto taskUpdateDto,
                                         BindingResult bindingResult) throws BindException {
-        if (bindingResult.hasErrors()) {
-            if (bindingResult instanceof BindException exception) {
-              throw exception;
-            } else {
-                throw new BindException(bindingResult);
-            }
-        }
+        BindingUtils.handleBindingResult(bindingResult);
         taskService.updateTask(user, taskId, taskUpdateDto);
         return ResponseEntity.noContent().build();
     }
-
 
     @DeleteMapping
     public ResponseEntity<Void> deleteTask(@AuthenticationPrincipal User user,

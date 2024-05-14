@@ -1,8 +1,11 @@
 package org.galaxy.tasktrackerapi.auth.service;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.galaxy.tasktrackerapi.auth.dto.LoginUserDto;
+import org.galaxy.tasktrackerapi.auth.dto.MessageDto;
 import org.galaxy.tasktrackerapi.auth.dto.RegistrationUserDto;
 import org.galaxy.tasktrackerapi.exception.PasswordIncorrectException;
 import org.galaxy.tasktrackerapi.exception.UserNotFoundException;
@@ -19,14 +22,23 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AuthService {
-    private final UserRepository userRepository;
-    private final AuthenticationManager authenticationManager;
-    private final UserServise userServise;
-    private final MessageSource messageSource;
+    UserRepository userRepository;
+    AuthenticationManager authenticationManager;
+    UserServise userServise;
+    MessageSource messageSource;
+    MessageProducerService messageProducerService;
 
     public User signup(RegistrationUserDto registrationUserDto) {
         log.info("Signing up user {}", registrationUserDto.getUsername());
+        messageProducerService.sendMessage(MessageDto.builder()
+                .email(registrationUserDto.getUsername())
+                .title(messageSource.getMessage("message.welcome.title",
+                        new Object[]{0}, LocaleContextHolder.getLocale()))
+                .text(messageSource.getMessage("message.welcome",
+                        new Object[]{0}, LocaleContextHolder.getLocale()))
+                .build());
         return userServise.createUser(registrationUserDto);
     }
 

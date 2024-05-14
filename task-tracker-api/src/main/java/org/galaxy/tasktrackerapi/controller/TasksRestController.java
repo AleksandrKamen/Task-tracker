@@ -1,10 +1,13 @@
 package org.galaxy.tasktrackerapi.controller;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.galaxy.tasktrackerapi.model.dto.TaskCreateDto;
 import org.galaxy.tasktrackerapi.model.dto.TaskReadDto;
 import org.galaxy.tasktrackerapi.model.entity.User;
 import org.galaxy.tasktrackerapi.model.service.TaskService;
+import org.galaxy.tasktrackerapi.validation.BindingUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindException;
@@ -19,8 +22,9 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/tasks")
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class TasksRestController {
-    private final TaskService taskService;
+    TaskService taskService;
 
     @GetMapping
     public List<TaskReadDto> getAllTasks(@AuthenticationPrincipal User user,
@@ -33,13 +37,7 @@ public class TasksRestController {
                                         @Validated @RequestBody TaskCreateDto taskCreateDto,
                                         BindingResult bindingResult,
                                         UriComponentsBuilder uriBuilder) throws BindException {
-        if (bindingResult.hasErrors()) {
-            if (bindingResult instanceof BindException exception) {
-                throw exception;
-            } else {
-                throw new BindException(bindingResult);
-            }
-        }
+        BindingUtils.handleBindingResult(bindingResult);
         var newTask = taskService.createTask(user, taskCreateDto);
         return ResponseEntity
                 .created(uriBuilder.replacePath("/api/v1/tasks/{taskId}")

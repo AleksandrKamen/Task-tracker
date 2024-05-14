@@ -5,61 +5,40 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.galaxy.tasktrackerapi.auth.dto.LoginResponse;
 import org.galaxy.tasktrackerapi.auth.dto.LoginUserDto;
-import org.galaxy.tasktrackerapi.auth.dto.MessageDto;
 import org.galaxy.tasktrackerapi.auth.dto.RegistrationUserDto;
-import org.galaxy.tasktrackerapi.auth.service.MessageProducerService;
-import org.galaxy.tasktrackerapi.model.entity.User;
 import org.galaxy.tasktrackerapi.auth.service.AuthService;
 import org.galaxy.tasktrackerapi.auth.service.JwtService;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.galaxy.tasktrackerapi.model.entity.User;
+import org.galaxy.tasktrackerapi.validation.BindingUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/auth/")
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AuthenticationController {
-     JwtService jwtService;
-     AuthService authenticationService;
-     MessageProducerService messageProducerService;
-     MessageSource messageSource;
-
+    JwtService jwtService;
+    AuthService authenticationService;
 
     @PostMapping("registration")
     public ResponseEntity<User> registration(@RequestBody @Validated RegistrationUserDto registrationUserDto,
                                              BindingResult bindingResult) throws BindException {
-        if (bindingResult.hasErrors()) {
-            if (bindingResult instanceof BindException exception) {
-                throw exception;
-            } else {
-                throw new BindException(bindingResult);
-            }
-        }
+        BindingUtils.handleBindingResult(bindingResult);
         var registeredUser = authenticationService.signup(registrationUserDto);
-        messageProducerService.sendMessage(MessageDto.builder()
-                .email(registrationUserDto.getUsername())
-                .title(messageSource.getMessage("message.welcome.title",
-                        new Object[]{0}, LocaleContextHolder.getLocale()))
-                .text(messageSource.getMessage("message.welcome",
-                        new Object[]{0}, LocaleContextHolder.getLocale()))
-                .build());
         return ResponseEntity.ok(registeredUser);
     }
+
     @PostMapping("login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody @Validated LoginUserDto loginUserDto,
                                                       BindingResult bindingResult) throws BindException {
-        if (bindingResult.hasErrors()) {
-            if (bindingResult instanceof BindException exception) {
-                throw exception;
-            } else {
-                throw new BindException(bindingResult);
-            }
-        }
+        BindingUtils.handleBindingResult(bindingResult);
         var user = authenticationService.authenticate(loginUserDto);
         var jwtToken = jwtService.generateToken(user);
         var loginResponse = LoginResponse.builder()

@@ -28,10 +28,10 @@ public class UserServiceImpl implements UserServise {
     @Transactional
     @Override
     public User createUser(RegistrationUserDto registrationUserDto) {
-        if (userRepository.findByUsername(registrationUserDto.getUsername()).isPresent()) {
+        userRepository.findByUsername(registrationUserDto.getUsername()).ifPresent(user -> {
             throw new UserAlreadyExistException(messageSource.getMessage("user.create.errors.user_already_exist",
                     new Object[]{registrationUserDto.getUsername()}, LocaleContextHolder.getLocale()));
-        }
+        });
         return userRepository.save(userMapper.userCreateDtoToUser(registrationUserDto));
     }
 
