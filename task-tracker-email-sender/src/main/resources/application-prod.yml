@@ -1,0 +1,11 @@
+rabbit:
+  queue_name: ${RABBITMQ_QUEUE_NAME}
+spring:
+  rabbitmq:
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
+    host: rabbitmq
+  mail:
+    emailFrom: ${MAIL_EMAIL_FROM}
+    username:  ${MAIL_USERNAME}
+    password:  ${MAIL_PASSWORD}

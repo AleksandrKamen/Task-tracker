@@ -1,0 +1,11 @@
+rabbit:
+  queue_name: EMAIL_SENDING_TASKS
+spring:
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+  mail:
+    emailFrom: test@gmail.com
+    username:  test@gmail.com
+    password:  123

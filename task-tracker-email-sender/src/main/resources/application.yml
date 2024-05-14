@@ -1,15 +1,6 @@
-rabbit:
-  queue_name: EMAIL_SENDING_TASKS
 spring:
-  rabbitmq:
-    username: guest
-    password: guest
-    host: localhost
   mail:
-    emailFrom:
-    username:
-    password:
-    host:
+    host: smtp.gmail.com
     port: 587
     protocol: smtp
     properties:
