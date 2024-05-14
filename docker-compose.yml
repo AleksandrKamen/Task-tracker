@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  task-tracker-api:
+    image: aleksandrkamen/task-tracker-api
+    restart: always
+    depends_on:
+      - postgres_db
+      - rabbitmq
+    ports:
+      - '8080:8080'
+    environment:
+      SPRING_PROFILES_ACTIVE: "prod"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+      RABBITMQ_QUEUE_NAME: ${RABBITMQ_QUEUE_NAME}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_EXPIRATION_TIME: ${JWT_EXPIRATION_TIME}
+
+  task-tracker-email-sender:
+    image: aleksandrkamen/task-tracker-email-sender
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      SPRING_PROFILES_ACTIVE: "prod"
+      RABBITMQ_QUEUE_NAME: ${RABBITMQ_QUEUE_NAME}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      MAIL_EMAIL_FROM: ${MAIL_EMAIL_FROM}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+
+  task-tracker-frontend:
+     image: aleksandrkamen/task-tracker-frontend
+     restart: always
+     depends_on:
+       - rabbitmq
+       - task-tracker-api
+     ports:
+       - '80:8080'
+
+  task-tracker-scheduler:
+    image: aleksandrkamen/task-tracker-scheduler
+    restart: always
+    depends_on:
+      - rabbitmq
+      - postgres_db
+      - task-tracker-api
+    environment:
+      SPRING_PROFILES_ACTIVE: "prod"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+      RABBITMQ_QUEUE_NAME: ${RABBITMQ_QUEUE_NAME}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+
+  postgres_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - ${ADMINER_PORT}
+volumes:
+  postgres_data:
