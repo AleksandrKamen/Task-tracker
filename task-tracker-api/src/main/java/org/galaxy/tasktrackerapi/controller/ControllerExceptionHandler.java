@@ -2,6 +2,7 @@ package org.galaxy.tasktrackerapi.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.galaxy.tasktrackerapi.exception.PasswordIncorrectException;
 import org.galaxy.tasktrackerapi.exception.TaskNotFoundException;
 import org.galaxy.tasktrackerapi.exception.UserAlreadyExistException;
 import org.galaxy.tasktrackerapi.exception.UserNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import java.util.Locale;
 
 @ControllerAdvice
@@ -32,13 +34,13 @@ public class ControllerExceptionHandler {
         return ResponseEntity.badRequest().body(problemDetail);
     }
 
-    @ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<ProblemDetail> handleUserAlreadyExistException(UserAlreadyExistException exception, Locale locale) {
-        var problemDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatus.CONFLICT, messageSource.getMessage("errors.409.title", new Object[0],
-                        "errors.409.title", locale));
+    @ExceptionHandler(PasswordIncorrectException.class)
+    public ResponseEntity<ProblemDetail> handlePasswordIncorrectException(Exception exception, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.UNAUTHORIZED, messageSource.getMessage("errors.401.title", new Object[0],
+                        "errors.401.title", locale));
         problemDetail.setProperty("errors", exception.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
     }
 
     @ExceptionHandler({UserNotFoundException.class, TaskNotFoundException.class})
@@ -50,12 +52,21 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
     }
 
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<ProblemDetail> handleUserAlreadyExistException(UserAlreadyExistException exception, Locale locale) {
+        var problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT, messageSource.getMessage("errors.409.title", new Object[0],
+                        "errors.409.title", locale));
+        problemDetail.setProperty("errors", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ProblemDetail> handleException(Exception exception, Locale locale) {
         log.error(exception.getMessage(), exception);
         var problemDetail = ProblemDetail.forStatusAndDetail(
-        HttpStatus.INTERNAL_SERVER_ERROR, messageSource.getMessage("errors.500.title", new Object[0],
-                "errors.500.title", locale));
+                HttpStatus.INTERNAL_SERVER_ERROR, messageSource.getMessage("errors.500.title", new Object[0],
+                        "errors.500.title", locale));
         problemDetail.setProperty("errors", messageSource.getMessage("errors.500.description", new Object[0],
                 "errors.500.description", locale));
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);

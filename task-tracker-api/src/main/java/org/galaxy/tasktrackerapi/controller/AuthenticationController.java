@@ -1,6 +1,8 @@
 package org.galaxy.tasktrackerapi.controller;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.galaxy.tasktrackerapi.auth.dto.LoginResponse;
 import org.galaxy.tasktrackerapi.auth.dto.LoginUserDto;
 import org.galaxy.tasktrackerapi.auth.dto.MessageDto;
@@ -9,6 +11,8 @@ import org.galaxy.tasktrackerapi.auth.service.MessageProducerService;
 import org.galaxy.tasktrackerapi.model.entity.User;
 import org.galaxy.tasktrackerapi.auth.service.AuthService;
 import org.galaxy.tasktrackerapi.auth.service.JwtService;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -18,10 +22,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/auth/")
 @RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AuthenticationController {
-    private final JwtService jwtService;
-    private final AuthService authenticationService;
-    private final MessageProducerService messageProducerService;
+     JwtService jwtService;
+     AuthService authenticationService;
+     MessageProducerService messageProducerService;
+     MessageSource messageSource;
+
 
     @PostMapping("registration")
     public ResponseEntity<User> registration(@RequestBody @Validated RegistrationUserDto registrationUserDto,
@@ -36,8 +43,10 @@ public class AuthenticationController {
         var registeredUser = authenticationService.signup(registrationUserDto);
         messageProducerService.sendMessage(MessageDto.builder()
                 .email(registrationUserDto.getUsername())
-                .title("Верификация вашей почты")
-                .text("%s Добро пожаловать на наш сервис".formatted(registrationUserDto.getUsername()))
+                .title(messageSource.getMessage("message.welcome.title",
+                        new Object[]{0}, LocaleContextHolder.getLocale()))
+                .text(messageSource.getMessage("message.welcome",
+                        new Object[]{0}, LocaleContextHolder.getLocale()))
                 .build());
         return ResponseEntity.ok(registeredUser);
     }
