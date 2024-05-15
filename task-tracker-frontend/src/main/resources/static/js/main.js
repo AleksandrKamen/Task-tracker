@@ -19,6 +19,7 @@ $(document).ready(function () {
             dataType: "json",
             data: json,
             success: function () {
+                $("#registration-form")[0].reset();
                 showElementAndHideElements("#authorization", "#registration")
             },
             error: function (xhr) {

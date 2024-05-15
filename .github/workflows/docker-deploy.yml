@@ -30,25 +30,25 @@ jobs:
           context: .
           push: true
           tags: aleksandrkamen/task-tracker-api:latest
-          build-args: JAR_FILE=task-tracker-api/target/task-tracker-api-0.0.1-SNAPSHOT.jar
+          build-args: JAR_FILE=task-tracker-api/target/task-tracker-api-1.0.0.jar
       - name: build-push task-tracker-email-sender
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: aleksandrkamen/task-tracker-email-sender:latest
-          build-args: JAR_FILE=task-tracker-email-sender/target/task-tracker-email-sender-0.0.1-SNAPSHOT.jar
+          build-args: JAR_FILE=task-tracker-email-sender/target/task-tracker-email-sender-1.0.0.jar
       - name: build-push task-tracker-frontend
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: aleksandrkamen/task-tracker-frontend:latest
-          build-args: JAR_FILE=task-tracker-frontend/target/task-tracker-frontend-0.0.1-SNAPSHOT.jar
+          build-args: JAR_FILE=task-tracker-frontend/target/task-tracker-frontend-1.0.0.jar
       - name: build-push task-tracker-scheduler
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: aleksandrkamen/task-tracker-scheduler:latest
-          build-args: JAR_FILE=task-tracker-scheduler/target/task-tracker-scheduler-0.0.1-SNAPSHOT.jar
+          build-args: JAR_FILE=task-tracker-scheduler/target/task-tracker-scheduler-1.0.0.jar

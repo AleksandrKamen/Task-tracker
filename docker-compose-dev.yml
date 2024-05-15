@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  task-tracker-api:
+    build:
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: task-tracker-api/target/task-tracker-api-0.0.1-SNAPSHOT.jar
+    restart: always
+    depends_on:
+      - postgres_db
+      - rabbitmq
+    ports:
+      - '8080:8080'
+    environment:
+      SPRING_PROFILES_ACTIVE: "prod"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+      RABBITMQ_QUEUE_NAME: ${RABBITMQ_QUEUE_NAME}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_EXPIRATION_TIME: ${JWT_EXPIRATION_TIME}
+
+  task-tracker-email-sender:
+    build:
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: task-tracker-email-sender/target/task-tracker-email-sender-0.0.1-SNAPSHOT.jar
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      SPRING_PROFILES_ACTIVE: "prod"
+      RABBITMQ_QUEUE_NAME: ${RABBITMQ_QUEUE_NAME}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      MAIL_EMAIL_FROM: ${MAIL_EMAIL_FROM}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+
+  task-tracker-frontend:
+    build:
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: task-tracker-frontend/target/task-tracker-frontend-0.0.1-SNAPSHOT.jar
+    restart: always
+    depends_on:
+       - rabbitmq
+       - task-tracker-api
+    ports:
+       - '80:8080'
+
+  task-tracker-scheduler:
+    build:
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: task-tracker-scheduler/target/task-tracker-scheduler-0.0.1-SNAPSHOT.jar
+    restart: always
+    depends_on:
+      - rabbitmq
+      - postgres_db
+      - task-tracker-api
+    environment:
+      SPRING_PROFILES_ACTIVE: "prod"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+      RABBITMQ_QUEUE_NAME: ${RABBITMQ_QUEUE_NAME}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+
+  postgres_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - ${ADMINER_PORT}
+volumes:
+  postgres_data:
