@@ -1,3 +1,4 @@
+const host = location.host;
 $(document).ready(function () {
     if (getToken() === null) {
         showElementAndHideElements("#registration", ".navbar-text", "#index")
@@ -14,7 +15,7 @@ $(document).ready(function () {
         let json = convertFormToJson($(this))
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/v1/auth/registration",
+            url: `http://${host}:8080/api/v1/auth/registration`,
             contentType: "application/json",
             dataType: "json",
             data: json,
@@ -38,7 +39,7 @@ $(document).ready(function () {
         let json = convertFormToJson($(this))
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/v1/auth/login",
+            url: `http://${host}:8080/api/v1/auth/login`,
             contentType: "application/json",
             dataType: "json",
             data: json,
@@ -68,7 +69,7 @@ $(document).ready(function () {
         let json = convertFormToJson($(this));
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/v1/tasks",
+            url: `http://${host}:8080/api/v1/tasks`,
             contentType: "application/json",
             dataType: "json",
             data: json,
@@ -128,7 +129,7 @@ $(document).ready(function () {
         let taskId = $(this).find('#update-id').val();
         $.ajax({
             type: "PATCH",
-            url: "http://localhost:8080/api/v1/tasks/" + taskId,
+            url: `http://${host}:8080/api/v1/tasks/` + taskId,
             contentType: "application/json",
             dataType: "json",
             data: json,
@@ -269,7 +270,7 @@ function getAllUsersTasks() {
     let token = getToken();
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/v1/tasks",
+        url: `http://${host}:8080/api/v1/tasks`,
         contentType: "application/json",
         dataType: "json",
         headers: {
@@ -298,7 +299,7 @@ function getAllUsersTasks() {
 function deleteTask(taskId) {
     $.ajax({
         type: "DELETE",
-        url: "http://localhost:8080/api/v1/tasks/" + taskId,
+        url: `http://${host}:8080/api/v1/tasks/` + taskId,
         contentType: "application/json",
         dataType: "json",
         headers: {
@@ -318,7 +319,7 @@ function updateTask(taskId, title, description, iscompleted) {
     let json = {title: title, description: description, iscompleted: iscompleted};
     $.ajax({
         type: "PATCH",
-        url: "http://localhost:8080/api/v1/tasks/" + taskId,
+        url: `http://${host}:8080/api/v1/tasks/` + taskId,
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(json),
