@@ -19,6 +19,7 @@ $(document).ready(function () {
             contentType: "application/json",
             dataType: "json",
             data: json,
+            timeout: 10000,
             success: function () {
                 $("#registration-form")[0].reset();
                 showElementAndHideElements("#authorization", "#registration")
@@ -43,6 +44,7 @@ $(document).ready(function () {
             contentType: "application/json",
             dataType: "json",
             data: json,
+            timeout: 10000,
             success: function (result) {
                 setTokenInLocaleStorage(result)
                 location.reload();
@@ -73,6 +75,7 @@ $(document).ready(function () {
             contentType: "application/json",
             dataType: "json",
             data: json,
+            timeout: 10000,
             headers: {
                 Authorization: 'Bearer ' + getToken()
             },
@@ -133,6 +136,7 @@ $(document).ready(function () {
             contentType: "application/json",
             dataType: "json",
             data: json,
+            timeout: 10000,
             headers: {
                 Authorization: 'Bearer ' + getToken()
             },
@@ -273,6 +277,7 @@ function getAllUsersTasks() {
         url: `http://${host}:8080/api/v1/tasks`,
         contentType: "application/json",
         dataType: "json",
+        timeout: 10000,
         headers: {
             Authorization: 'Bearer ' + token
         },
@@ -302,6 +307,7 @@ function deleteTask(taskId) {
         url: `http://${host}:8080/api/v1/tasks/` + taskId,
         contentType: "application/json",
         dataType: "json",
+        timeout: 10000,
         headers: {
             Authorization: 'Bearer ' + getToken()
         },
@@ -323,6 +329,7 @@ function updateTask(taskId, title, description, iscompleted) {
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(json),
+        timeout: 10000,
         headers: {
             Authorization: 'Bearer ' + getToken()
         },
