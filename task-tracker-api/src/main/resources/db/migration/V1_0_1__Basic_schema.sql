@@ -10,6 +10,8 @@ CREATE TABLE app_data.users
     role  VARCHAR(32) not null
 );
 
+CREATE INDEX idx_userName on app_data.users(username);
+
 CREATE TABLE app_data.tasks
 (
     id BIGSERIAL PRIMARY KEY,
@@ -21,5 +23,6 @@ CREATE TABLE app_data.tasks
     id_user BIGINT NOT NULL REFERENCES app_data.users(id)
 );
 
+CREATE INDEX idx_idUser on app_data.tasks(id_user);
 
 
